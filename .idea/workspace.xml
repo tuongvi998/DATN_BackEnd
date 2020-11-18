@@ -19,7 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b96a9c3a-3edc-4c7f-b909-700515424cab" name="Default Changelist" comment="" />
+    <list default="true" id="b96a9c3a-3edc-4c7f-b909-700515424cab" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,7 +32,7 @@
     <execution />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -169,6 +171,7 @@
       <workItem from="1605264419150" duration="3346000" />
       <workItem from="1605606339625" duration="2712000" />
       <workItem from="1605667421621" duration="2819000" />
+      <workItem from="1605672523057" duration="419000" />
     </task>
     <servers />
   </component>
