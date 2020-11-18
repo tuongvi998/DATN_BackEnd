@@ -1,0 +1,19 @@
+<?php
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+
+use App\Volunteer;
+use Faker\Generator as Faker;
+
+$factory->define(Volunteer::class, function (Faker $faker) {
+    return [
+        'user_id' => \App\User::all()
+            ->where('role_id','=',3)
+            ->random()->id,
+        'avatar' => $faker->imageUrl(300,300),
+        'address' => $faker->address,
+        'gender' =>$faker->boolean,
+        'phone' =>$faker->phoneNumber,
+        'birthday' =>$faker->date('Y-m-d')
+    ];
+});
