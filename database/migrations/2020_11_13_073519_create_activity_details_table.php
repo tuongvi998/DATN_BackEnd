@@ -17,15 +17,16 @@ class CreateActivityDetailsTable extends Migration
             $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('group_id');
             $table->string('title');
+            $table->date('close_date');     //close register
             $table->date('start_date');
             $table->date('end_date');
             $table->string('address');
-            $table->string('content');
+            $table->string('content',10000);
             $table->unsignedBigInteger('max_register');
             $table->unsignedBigInteger('min_register');
             $table->string('image')->nullable();
-            $table->decimal('donate');
-            $table->decimal('cost');
+            $table->decimal('donate',10,3);
+            $table->decimal('cost',10,3);
             $table->foreign('group_id')
                 ->references('id')
                 ->on('groups')

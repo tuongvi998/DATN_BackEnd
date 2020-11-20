@@ -2,20 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class VolunteerController extends Controller
+class GroupController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        $volunteers = DB::table('volunteers')
-            ->join('users','user_id', '=','users.id')
-            ->select('volunteers.id', 'volunteers.user_id', 'users.name', 'users.email')
+        $groups = DB::table('groups')
+            ->join('users','user_id','=','users.id')
+            ->select('groups.id', 'groups.user_id', 'users.email', 'users.name')
             ->get();
         return response()->Json([
-            'all volunteer' => $volunteers
+           'all groups:'=> $groups
         ]);
     }
 
@@ -35,28 +39,9 @@ class VolunteerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function setRoleAdmin($id)
+    public function store(Request $request)
     {
-        $user = DB::table('users')
-            ->find($id);
-        if($user == null ){
-            return response()->Json('id not found');
-        }
-        else{
-            if(DB::table('admins')->where('user_id', '=',$id) == null){
-                $vlt = DB::table('volunteers')
-                    ->where('user_id', '=',$id)
-                    ->delete();
-                $admin = new Admin();
-                $admin->user_id = $user->id;
-                $admin->save();
-                return response()->Json([
-                    'data' => $admin
-                ]);
-            }else{
-                return response()->Json('user_id already exists');
-            }
-        }
+        //
     }
 
     /**
@@ -67,11 +52,11 @@ class VolunteerController extends Controller
      */
     public function show($id)
     {
-        $volunteer = DB::table('volunteers')
+        $group = DB::table('groups')
             ->where('id' ,'=',$id)
             ->get();
         return response()->Json([
-            'user:'=> $volunteer
+            'user:'=> $group
         ]);
     }
 
@@ -104,19 +89,19 @@ class VolunteerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($user_id) // send id of volunteer in user table
+    public function destroy($user_id)
     {
-        $vlt = DB::table('users')
+        $group = DB::table('users')
             ->where('id', '=', $user_id)
             ->first();
-        if($vlt == null) {
+        if($group == null) {
             return response()->Json('id not found');
         }
         else{
             DB::table('users')
                 ->where('id', '=', $user_id)
                 ->delete();
-            return response()->Json('User delete successful');
+            return response()->Json('Group delete successful');
         }
     }
 }

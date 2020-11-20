@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call(FieldSeeder::class);
         $this->call(GroupSeeder::class);
         $this->call(VolunteerSeeder::class);
+        $this->call(ActivityDetailSeeder::class);
+        $this->call(RegisterProfileSeeder::class);
 
     }
 }
