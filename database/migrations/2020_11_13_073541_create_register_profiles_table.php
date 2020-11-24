@@ -17,10 +17,10 @@ class CreateRegisterProfilesTable extends Migration
             $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('volunteer_id');
             $table->unsignedBigInteger('activity_id');
-            $table->unsignedBigInteger('position_id');
-            $table->string('introduction');
+//            $table->unsignedBigInteger('position_id');
+            $table->string('introduction',1000);
             $table->date('register_date');
-            $table->string('interest');
+            $table->string('interest',1000);
             $table->foreign('volunteer_id')
                 ->references('id')
                 ->on('volunteers')
@@ -30,9 +30,9 @@ class CreateRegisterProfilesTable extends Migration
                 ->on('activity_details')
                 ->onDelete('cascade');
             $table->timestamps();
-            $table->foreign('position_id')
-                ->references('id')
-                ->on('register_positions');
+//            $table->foreign('position_id')
+//                ->references('id')
+//                ->on('register_positions');
         });
     }
 

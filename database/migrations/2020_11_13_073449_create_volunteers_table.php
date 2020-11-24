@@ -15,7 +15,7 @@ class CreateVolunteersTable extends Migration
     {
         Schema::create('volunteers', function (Blueprint $table) {
             $table->bigIncrements('id')->unique();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->unique();
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
             $table->date('birthday')->nullable();
