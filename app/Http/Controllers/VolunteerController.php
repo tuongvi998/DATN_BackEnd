@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Admin;
+use App\User;
+use App\Volunteer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -10,12 +12,13 @@ class VolunteerController extends Controller
 {
     public function index()
     {
-        $volunteers = DB::table('volunteers')
-            ->join('users','user_id', '=','users.id')
-            ->select('volunteers.id', 'volunteers.user_id', 'users.name', 'users.email')
+        $volunteers = Volunteer::join('users','user_id', '=','users.id')
+            ->select('volunteers.id', 'volunteers.user_id', 'volunteers.avatar', 'volunteers.address', 'volunteers.gender',
+                'volunteers.phone', 'users.name', 'users.email', 'volunteers.is_active','volunteers.birthday')
+            ->orderBy('volunteers.id')
             ->get();
         return response()->Json([
-            'all volunteer' => $volunteers
+            'data' => $volunteers
         ]);
     }
 
@@ -106,17 +109,29 @@ class VolunteerController extends Controller
      */
     public function destroy($user_id) // send id of volunteer in user table
     {
-        $vlt = DB::table('users')
-            ->where('id', '=', $user_id)
+       $vlt = User::where('id', '=', $user_id)
             ->first();
         if($vlt == null) {
             return response()->Json('id not found');
         }
         else{
-            DB::table('users')
-                ->where('id', '=', $user_id)
+            User::where('id', '=', $user_id)
                 ->delete();
             return response()->Json('User delete successful');
         }
+//        $vlt = Volunteer::where('volunteers.id', '=', $id)
+//            ->join('users', 'users.id', '=', 'volunteers.user_id')
+//
+//            ->select('volunteers.id', 'users.id as user_id' )
+//            ->get();
+////        return response($vlt.user_id);
+//        if($vlt == null) {
+//            return response()->Json('id not found');
+//        }else{
+//            $user_id = $vlt.value(user_id);
+//            $user = User::find($user_id);
+//            $user->delete();
+//            return response()->Json('User delete successful');
+//        }
     }
 }

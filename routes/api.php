@@ -30,13 +30,14 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'admin'
 ], function ($route){
-    Route::get('list-all-volunteers','VolunteerController@index')->middleware('admin');
+    Route::get('list-all-volunteers','VolunteerController@index');//->middleware('admin');
 //    Route::get('get-all-volunteers','VolunteerController@index')->middleware('admin');
-    Route::delete('delete-volunteer/{user_id}','VolunteerController@destroy')->middleware('admin');
+    Route::delete('delete-volunteer/{user_id}','VolunteerController@destroy');//->middleware('admin');
     Route::get('volunteer-profile/{id}','VolunteerController@show');
     Route::post('set-role-admin/{id}','VolunteerController@setRoleAdmin')->middleware('admin');
     Route::get('list-all-groups','GroupController@index');//->middleware('admin');
     Route::get('group-profile/{id}','GroupController@show');
+    Route::delete('delete-group/{user_id}','GroupController@destroy');
 });
 Route::group([
    'middleware' =>'api',
