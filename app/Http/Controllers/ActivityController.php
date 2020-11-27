@@ -15,21 +15,33 @@ class ActivityController extends Controller
         return response()->Json($activities);
     }
 
+    public function getActiveById($id)
+    {
+        $groups = ActivityDetail::where('group_id', '=', $id)
+            ->get();
+        return response()->json([
+            'data'=> $groups,
+            'message' => 'all groups'
+        ]);
+    }
     public function create(ActivityRequest $request)
     {
-        $activity = new ActivityDetail();
-        $activity->group_id = $request->group_id;
-        $activity->title = $request->title;
-        $activity->content = $request->conten; //content: error
-        $activity->max_register = $request->max_register;
-        $activity->min_register = $request->min_register;
-        $activity->image = $request->image;
-        $activity->donate = $request->donate;
-        $activity->cost = $request->cost;
-        $activity->start_date = $request->start_date;
-        $activity->end_date = $request->end_date;
-        $activity->clode_date = $request->close_date; //close register
-        $activity->save();
+        $post_fields = $request->only([group_id, title, content,
+                            max_register, min_register, image, donate, cost,start_date,
+                            end_date, close_date]);
+        $activity = new ActivityDetail($post_fields);
+//        $activity->group_id = $request->group_id;
+//        $activity->title = $request->title;
+//        $activity->content = $request->conten; //content: error
+//        $activity->max_register = $request->max_register;
+//        $activity->min_register = $request->min_register;
+//        $activity->image = $request->image;
+//        $activity->donate = $request->donate;
+//        $activity->cost = $request->cost;
+//        $activity->start_date = $request->start_date;
+//        $activity->end_date = $request->end_date;
+//        $activity->close_date = $request->close_date; //close register
+        //$activity->save();
         return response()->Json([
             'message:'=>'activity create success',
             'data' => $activity
@@ -98,7 +110,7 @@ class ActivityController extends Controller
     }
 
     }
-    
+
     public function destroy($id)
     {
         $activity = ActivityDetail::find($id);

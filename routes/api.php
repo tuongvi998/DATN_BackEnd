@@ -50,4 +50,6 @@ Route::group([
     Route::get('upcoming-activity','ActivityController@getUpcomingActivity');
     Route::get('completed-activity','ActivityController@getCompletedActivity');
     Route::get('activity-need-funding','ActivityController@getCompletedActivity');
+    Route::get('list-activities-byid/{id}', 'ActivityController@getActiveById');
+    Route::put('create-activity', 'ActivityController@create');
 });

@@ -65,7 +65,7 @@ class AuthController extends Controller
         ]);
         $token = null;
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json('wrong email or password', 422);
         }
 
         $credentials = request(['email', 'password']);
@@ -73,6 +73,9 @@ class AuthController extends Controller
             return response()->json(['error' => 'email or password incorrect'], 401);
         }
         $role = 'role';
+        if(auth()->user()->is_active == 0) {
+            return response()->json(['error' => 'you can\'t login now']);
+        }
         return $this->respondWithToken($token);
     }
 

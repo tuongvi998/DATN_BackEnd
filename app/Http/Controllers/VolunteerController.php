@@ -14,11 +14,13 @@ class VolunteerController extends Controller
     {
         $volunteers = Volunteer::join('users','user_id', '=','users.id')
             ->select('volunteers.id', 'volunteers.user_id', 'volunteers.avatar', 'volunteers.address', 'volunteers.gender',
-                'volunteers.phone', 'users.name', 'users.email', 'volunteers.is_active','volunteers.birthday')
+                'volunteers.phone', 'users.name', 'users.email', 'users.is_active','volunteers.birthday')
             ->orderBy('volunteers.id')
             ->get();
-        return response()->Json([
-            'data' => $volunteers
+        return response()->json([
+            'message' => 'all volunteers',
+            'data' => $volunteers,
+
         ]);
     }
 
