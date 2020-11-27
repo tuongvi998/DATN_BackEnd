@@ -15,15 +15,13 @@ class GroupController extends Controller
             ->join('fields','field_id', '=', 'fields.id')
             ->select('fields.name as field_name','groups.id', 'groups.user_id', 'groups.address', 'groups.avatar', 'groups.field_id', 'users.email', 'users.name')
             ->get();
-        return response()->Json([
-           'data'=> $groups
+        return response()->json([
+           'data'=> $groups,
+            'message' => 'all groups'
         ]);
     }
 
-    public function create()
-    {
-        //
-    }
+
 
     public function show($id)
     {

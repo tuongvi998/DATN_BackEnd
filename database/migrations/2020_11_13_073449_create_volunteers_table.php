@@ -21,7 +21,6 @@ class CreateVolunteersTable extends Migration
             $table->date('birthday')->nullable();
             $table->boolean('gender')->nullable();
             $table->string('avatar')->nullable();
-            $table->boolean('is_active')->default(true);
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')

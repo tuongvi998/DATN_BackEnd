@@ -35,7 +35,7 @@ class ActivityRequest extends FormRequest
                 'end_date' => 'required|date|after:start_date',
                 'close_date' => 'required|date|before:start_date',
                 'address' => 'required|string',
-                'conten' => 'required|string',
+                'content' => 'required|string',
                 'max_register' => 'required|number|max:500000000|gt:min_register|min:1',
                 'min_register' => 'required|number|max:500000000|min:1',
                 'image' => 'string|url',
@@ -46,6 +46,7 @@ class ActivityRequest extends FormRequest
         else{
             return [
             'title' =>'required',
+            'group_id'=>'required',
             'start_date' => 'required|date|before:end_date',
             'end_date' => 'required|date|after:start_date',
             'close_date' => 'required|date|before:start_date',
