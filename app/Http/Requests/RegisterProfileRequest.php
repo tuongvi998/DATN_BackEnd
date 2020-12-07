@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Request;
 class RegisterProfileRequest extends FormRequest
 {
     /**
@@ -21,10 +23,32 @@ class RegisterProfileRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
-        return [
-            //
-        ];
+        if($request->isMethod('POST')){
+            return [
+//                'id'=>'required|unique:activity_details',
+                'volunteer_user_id'=>'required',
+                'activity_id' =>'required',
+                'isAccept' => 'required|boolean',
+                'register_date' => 'required|date|after:start_date',
+                'introduction' => 'required|string',
+                'interest' => 'required|string',
+            ];
+        }
+        else{
+            return [
+                'volunteer_id'=>'required',
+                'activity_id' =>'required',
+                'isAccept' => 'required|date|before:end_date',
+                'register_date' => 'required|date|after:start_date',
+                'introduction' => 'required|string',
+                'interest' => 'required|string',
+            ];
+        }
+    }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
 }

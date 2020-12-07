@@ -25,7 +25,7 @@ class CreateActivityDetailsTable extends Migration
             $table->unsignedBigInteger('max_register');
             $table->unsignedBigInteger('min_register');
             $table->string('image')->nullable();
-            $table->decimal('donate',10,3);
+            $table->decimal('donate',10,3)->nullable();
             $table->decimal('cost',10,3);
             $table->foreign('group_id')
                 ->references('id')

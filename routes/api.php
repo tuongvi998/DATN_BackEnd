@@ -23,7 +23,7 @@ Route::group([
 ], function ($route){
     Route::post('register','AuthController@register');
     Route::post('login','AuthController@login');
-    Route::get('logout','AuthController@logout')->middleware('admin');
+    Route::post('logout','AuthController@logout');
     Route::get('user-profile','AuthController@userProfile');
 });
 Route::group([
@@ -38,18 +38,40 @@ Route::group([
     Route::get('list-all-groups','GroupController@index');//->middleware('admin');
     Route::get('group-profile/{id}','GroupController@show');
     Route::delete('delete-group/{user_id}','GroupController@destroy');
+    Route::get('fields','AdminController@fields');
+    Route::delete('field/{id}','AdminController@deleteField');
+    Route::post('field','FieldController@create');
 });
 Route::group([
    'middleware' =>'api',
    'prefix' => 'group'
 ],function ($route){
-    Route::get('list-all-activities','ActivityController@index');
     Route::put('update-activity-detail/{id}','ActivityController@update');
     Route::get('activity-detail/{id}','ActivityController@show');
     Route::delete('activity/{id}','ActivityController@destroy');
-    Route::get('upcoming-activity','ActivityController@getUpcomingActivity');
     Route::get('completed-activity','ActivityController@getCompletedActivity');
-    Route::get('activity-need-funding','ActivityController@getCompletedActivity');
     Route::get('list-activities-byid/{id}', 'ActivityController@getActiveById');
-    Route::put('create-activity', 'ActivityController@create');
+    Route::post('create-activity', 'ActivityController@create');
+    Route::get('activity-register-profile/{id}','RegisterProfileController@show');
+    Route::put('change-accept-status/{id}','RegisterProfileController@changeAccept');
+});
+Route::group([
+    'middleware' =>'api',
+    'prefix' => 'volunteer'
+],function ($route){
+    Route::get('activity-joined/{id}','VolunteerController@getActivityJoined');
+    Route::get('activity-register/{id}','VolunteerController@getActivityRegister');
+    Route::post('register-profile',"RegisterProfileController@create");
+    Route::get('export',"VolunteerController@export");
+});
+Route::group([
+    'middleware' =>'api'
+], function ($route){
+    Route::get('2group-most-activity', 'GroupController@getTwoGroup');
+    Route::get('10group-most-activity', 'GroupController@getTenGroup');
+    Route::get('list-all-activities','ActivityController@index');
+    Route::get('upcoming-activity','ActivityController@getUpcomingActivity');
+    Route::get('all-upcoming-activity','ActivityController@getAllUpcomingActivity');
+    Route::get('activity-need-funding','ActivityController@getCompletedActivity');
+    Route::get('all-fields', 'FieldController@allField');
 });

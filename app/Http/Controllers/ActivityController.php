@@ -26,9 +26,9 @@ class ActivityController extends Controller
     }
     public function create(ActivityRequest $request)
     {
-        $post_fields = $request->only([group_id, title, content,
-                            max_register, min_register, image, donate, cost,start_date,
-                            end_date, close_date]);
+        $post_fields = $request->only(['group_id', 'title', 'content',
+                            'max_register', 'min_register', 'image', 'donate', 'cost','start_date',
+                            'end_date', 'close_date']);
         $activity = new ActivityDetail($post_fields);
 //        $activity->group_id = $request->group_id;
 //        $activity->title = $request->title;
@@ -50,11 +50,40 @@ class ActivityController extends Controller
 
     public function getUpcomingActivity(Request $request)
     {
-        echo "current date: ".date('Y-m-d');
-        var_dump(date('Y-m-d'));
+//        echo "current date: ".date('Y-m-d');
+//        var_dump(date('Y-m-d'));
         $activity = ActivityDetail::where('start_date','>', date('Y-m-d'))
+            ->join('groups', 'activity_details.group_id','=', 'groups.id')
+            ->join('users','groups.user_id', '=', 'users.id')
+            ->join('fields', 'groups.field_id', '=', 'fields.id')
+            ->select('activity_details.id', 'activity_details.start_date', 'activity_details.end_date', 'activity_details.address',
+            'activity_details.max_register', 'activity_details.min_register', 'activity_details.title', 'activity_details.content',
+            'activity_details.image', 'activity_details.donate', 'activity_details.cost', 'activity_details.close_date', 'users.name as group_name',
+            'fields.name as field_name')
+            ->orderby('activity_details.start_date')
+            ->limit(10)
             ->get();
-        return response()->json(['activity'=> $activity]);
+        return response()->json([
+            'message' => 'upcoming activity',
+            'data'=> $activity]);
+    }
+    public function getAllUpcomingActivity(Request $request)
+    {
+//        echo "current date: ".date('Y-m-d');
+//        var_dump(date('Y-m-d'));
+        $activity = ActivityDetail::where('start_date','>', date('Y-m-d'))
+            ->join('groups', 'activity_details.group_id','=', 'groups.id')
+            ->join('users','groups.user_id', '=', 'users.id')
+            ->join('fields', 'groups.field_id', '=', 'fields.id')
+            ->select('activity_details.id', 'activity_details.start_date', 'activity_details.end_date', 'activity_details.address',
+                'activity_details.max_register', 'activity_details.min_register', 'activity_details.title', 'activity_details.content',
+                'activity_details.image', 'activity_details.donate', 'activity_details.cost', 'activity_details.close_date', 'users.name as group_name',
+                'fields.name as field_name')
+            ->orderby('activity_details.start_date')
+            ->get();
+        return response()->json([
+            'message' => 'upcoming activity',
+            'data'=> $activity]);
     }
     public function getCompletedActivity(Request $request)
     {

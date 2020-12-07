@@ -11,7 +11,7 @@ class Field extends Model
         'id', 'name'
     ];
 
-    public function group(){
+    public function groups(){
         return $this->hasMany('App\Group');
     }
 

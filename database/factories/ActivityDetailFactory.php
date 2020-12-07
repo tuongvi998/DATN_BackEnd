@@ -9,9 +9,9 @@ $factory->define(ActivityDetail::class, function (Faker $faker) {
     return [
         'group_id' => \App\Group::all()->random()->id,
         'title' => $faker->title,
-        'close_date' => $faker->date('Y-m-d'),
-        'start_date' => $faker->date('Y-m-d'),
-        'end_date' => $faker->date('Y-m-d'),
+        'close_date' => $faker->dateTimeBetween('-450 days', '80 days'),
+        'start_date' => $faker->dateTimeBetween('-400 days', '100 days'),
+        'end_date' => $faker->dateTimeBetween('-400 days', '100 days'),
         'address' =>$faker->address,
         'content' => $faker->text(1000),
         'image' =>$faker->imageUrl(500,300),

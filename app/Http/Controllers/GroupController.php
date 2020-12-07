@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ActivityDetail;
 use App\Group;
 use App\User;
 use Illuminate\Http\Request;
@@ -21,6 +22,44 @@ class GroupController extends Controller
         ]);
     }
 
+    public function getTwoGroup(){
+//        SELECT groups.id, groups.user_id, activity_details.group_id, activity_details.countnum
+//        FROM groups JOIN (SELECT activity_details.group_id, COUNT(*) AS countnum FROM activity_details
+//        GROUP BY activity_details.group_id) activity_details ON (groups.id = activity_details.group_id)
+//        ORDER BY activity_details.countnum DESC LIMIT 2
+        $groups = Group::join('activity_details','activity_details.group_id','=','groups.id')
+            ->join('users','users.id','=','groups.user_id')
+            ->join('fields','fields.id','=','groups.field_id')
+            ->selectRaw('activity_details.group_id, count(activity_details.group_id) as group_count, users.name, users.email,
+            groups.avatar, groups.phone, groups.phone, fields.name as field_name')
+            ->groupBy('activity_details.group_id','users.name','users.email','groups.phone','groups.phone','groups.avatar','fields.name' )
+            ->orderBy('group_count','DESC')
+            ->limit(2)
+            ->get();
+        return response()->json([
+            'data'=> $groups,
+            'message' => '2 groups have most activities'
+        ]);
+    }
+    public function getTenGroup(){
+//        SELECT groups.id, groups.user_id, activity_details.group_id, activity_details.countnum
+//        FROM groups JOIN (SELECT activity_details.group_id, COUNT(*) AS countnum FROM activity_details
+//        GROUP BY activity_details.group_id) activity_details ON (groups.id = activity_details.group_id)
+//        ORDER BY activity_details.countnum DESC LIMIT 2
+        $groups = Group::join('activity_details','activity_details.group_id','=','groups.id')
+            ->join('users','users.id','=','groups.user_id')
+            ->join('fields','fields.id','=','groups.field_id')
+            ->selectRaw('activity_details.group_id, count(activity_details.group_id) as group_count, users.name, users.email,
+            groups.avatar, groups.phone, groups.phone, fields.name as field_name')
+            ->groupBy('activity_details.group_id','users.name','users.email','groups.phone','groups.phone','groups.avatar','fields.name' )
+            ->orderBy('group_count','DESC')
+            ->limit(10)
+            ->get();
+        return response()->json([
+            'data'=> $groups,
+            'message' => '2 groups have most activities'
+        ]);
+    }
 
 
     public function show($id)
