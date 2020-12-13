@@ -12,21 +12,8 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function fields()
-    {
-        $fields= Field::withCount(['groups'])->get();
-        return response()->json([
-            "message" => "all fields",
-            "data" => $fields
-        ]);
-    }
-    public function deleteField($id)
-    {
-        $field = Field::findOrFail($id);
-        $field->delete();
-//        $fields= Field::where('id','=',$id)->delete();
-        return response("Delete field success");
-    }
+
+
 
     /**
      * Show the form for creating a new resource.

@@ -12,7 +12,7 @@ use App\Volunteer;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Response;
 class AuthController extends Controller
 {
     public function __construct() {
@@ -108,7 +108,7 @@ class AuthController extends Controller
                 ->select('users.name', 'users.email', 'volunteers.address', 'volunteers.birthday', 'volunteers.gender',
                 'volunteers.phone', 'volunteers.avatar')
                 ->get();
-            return response($volunteer);
+            return Response::json($volunteer);
         }
         else if(auth()->user()->role_id == '2'){
             $group = Group::where('user_id', '=', auth()->user()->id)

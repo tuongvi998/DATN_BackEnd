@@ -22,9 +22,11 @@ class CreateActivityDetailsTable extends Migration
             $table->date('end_date');
             $table->string('address');
             $table->string('content',10000);
+            $table->string('require',2000);
+            $table->string('benefit',2000);
             $table->unsignedBigInteger('max_register');
             $table->unsignedBigInteger('min_register');
-            $table->string('image')->nullable();
+            $table->string('image');
             $table->decimal('donate',10,3)->nullable();
             $table->decimal('cost',10,3);
             $table->foreign('group_id')

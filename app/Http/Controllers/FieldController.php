@@ -9,23 +9,12 @@ use Illuminate\Http\Request;
 class FieldController extends Controller
 {
 
-    public function allFields()
+    public function fields()
     {
-        $fields = [];
-        foreach (Field::all() as $field){
-            $id =  $field->id;
-            $name = $field->name;
-            $c = Group::where('field_id', '=', $id)->count();
-            array_push($fields, (object)[
-                'id' => $id,
-                'group_count' => $c,
-                'field_name' => $name,
-            ]);
-
-        }
+        $fields= Field::withCount(['groups'])->get();
         return response()->json([
-            'message' => 'All fields',
-            'data' => $fields
+            "message" => "all fields",
+            "data" => $fields
         ]);
     }
 
@@ -102,7 +91,10 @@ class FieldController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
-    }
+     {
+         $field = Field::findOrFail($id);
+         $field->delete();
+//        $fields= Field::where('id','=',$id)->delete();
+         return response("Delete field success");
+     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Admin;
+use App\RegisterProfile;
 use App\User;
 use App\Volunteer;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class VolunteerController extends Controller
     public function getActivityJoined($id)
     {
         $volunteer = Volunteer::where('volunteers.user_id','=',$id)
-            ->join('register_profiles', 'register_profiles.volunteer_user_id','=','volunteers.id')
+            ->join('register_profiles', 'register_profiles.volunteer_user_id','=','volunteers.user_id')
             ->join('activity_details','activity_details.id','=','register_profiles.activity_id')
             ->where('activity_details.end_date','<', date('Y-m-d'))
             ->get();
@@ -41,7 +42,28 @@ class VolunteerController extends Controller
             'data' => $volunteer
         ]);
     }
-
+    public function checkActivityRegister($activity_id){
+        $user_id = auth()->user()->id;
+        $activities = RegisterProfile::where('activity_id',$activity_id)->get();
+        $count = 0;
+        foreach ($activities as $activity){
+            if($activity->volunteer_user_id == $user_id){
+                $count += 1;
+            }
+        }
+        if($count > 0){
+            return response()->json([
+                'data'=>true,
+                'us' =>$user_id
+            ]);
+        }
+         else{
+             return response()->json([
+                 'data'=>false,
+                 'us' =>$user_id
+             ]);
+         }
+    }
     public function export()
     {
         dispatch(new \App\Jobs\Export\User(auth()->user()));
@@ -50,7 +72,7 @@ class VolunteerController extends Controller
     public function getActivityRegister($id)
     {
         $volunteer = Volunteer::where('volunteers.user_id','=',$id)
-            ->join('register_profiles', 'register_profiles.volunteer_user_id','=','volunteers.id')
+            ->join('register_profiles', 'register_profiles.volunteer_user_id','=','volunteers.user_id')
             ->join('activity_details','activity_details.id','=','register_profiles.activity_id')
             ->where('activity_details.start_date','>', date('Y-m-d'))
             ->select('activity_details.id as activity_id', 'activity_details.start_date','activity_details.end_date', 'activity_details.address as activity_address',

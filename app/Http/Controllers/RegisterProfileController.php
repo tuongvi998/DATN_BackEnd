@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\RegisterProfileRequest;
 use App\RegisterProfile;
 use App\User;
 use Illuminate\Http\Request;
@@ -14,11 +14,19 @@ class RegisterProfileController extends Controller
         //
     }
 
-    public function create(RegisterRequest $request)
+    public function create(RegisterProfileRequest $request)
     {
-        $post_fields = $request->only(['volunteer_user_id','activity_id', 'isAccept','register_date',
-            'introduction', 'interest']);
-        $register_profile = new RegisterProfile($post_fields);
+//        $post_fields = $request->only(['volunteer_user_id','activity_id', 'isAccept','register_date',
+//            'introduction', 'interest']);
+//        $register_profile = new RegisterProfile($post_fields);
+        $register_profile = new RegisterProfile();
+        $register_profile->volunteer_user_id = $request->volunteer_user_id;
+        $register_profile->activity_id = $request->activity_id;
+        $register_profile->isAccept = $request->isAccept;
+        $register_profile->register_date = $request->register_date;
+        $register_profile->introduction = $request->introduction;
+        $register_profile->interest = $request->interest;
+        $register_profile->save();
         return response()->Json([
             'message:'=>'register profile create success',
             'data' => $register_profile

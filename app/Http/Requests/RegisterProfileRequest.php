@@ -15,7 +15,7 @@ class RegisterProfileRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -31,7 +31,7 @@ class RegisterProfileRequest extends FormRequest
                 'volunteer_user_id'=>'required',
                 'activity_id' =>'required',
                 'isAccept' => 'required|boolean',
-                'register_date' => 'required|date|after:start_date',
+                'register_date' => 'required|date',
                 'introduction' => 'required|string',
                 'interest' => 'required|string',
             ];

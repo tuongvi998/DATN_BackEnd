@@ -47,11 +47,16 @@ class ActivityRequest extends FormRequest
             return [
             'title' =>'required',
             'group_id'=>'required',
-            'start_date' => 'required|date|before:end_date',
-            'end_date' => 'required|date|after:start_date',
-            'close_date' => 'required|date|before:start_date',
+                'start_date' => 'required',
+                'end_date' => 'required',
+                'close_date' => 'required',
+//            'start_date' => 'required|date|before:end_date',
+//            'end_date' => 'required|date|after:start_date',
+//            'close_date' => 'required|date|before:start_date',
             'address' => 'required|string',
-            'conten' => 'required|string',  //content controller error
+                'benefit' => 'required|string',
+                'require' => 'required|string',
+            'content' => 'required|string',  //content controller error
             'max_register' => 'required|int|max:500000000|gt:min_register|min:1',
             'min_register' => 'required|int|max:500000000|min:1',
             'image' => 'string|url',
