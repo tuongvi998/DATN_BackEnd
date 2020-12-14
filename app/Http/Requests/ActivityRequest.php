@@ -28,7 +28,7 @@ class ActivityRequest extends FormRequest
     {
         if($request->isMethod('POST')){
             return [
-                'id'=>'required|unique:activity_details',
+//                'id'=>'required|unique:activity_details',
                 'group_id'=>'required',
                 'title' =>'required',
                 'start_date' => 'required|date|before:end_date',
@@ -36,22 +36,27 @@ class ActivityRequest extends FormRequest
                 'close_date' => 'required|date|before:start_date',
                 'address' => 'required|string',
                 'content' => 'required|string',
-                'max_register' => 'required|number|max:500000000|gt:min_register|min:1',
-                'min_register' => 'required|number|max:500000000|min:1',
+                'max_register' => 'required|int|max:500000000|gt:min_register|min:1',
+                'min_register' => 'required|int|max:500000000|min:1',
                 'image' => 'string|url',
-                'donate'=> 'required|int|max:1000000000',
-                'cost' => 'required|number|max:1000000000'
+                'donate'=> 'int|max:1000000000',
+                'cost' => 'required|int|max:1000000000'
             ];
         }
         else{
             return [
             'title' =>'required',
             'group_id'=>'required',
-            'start_date' => 'required|date|before:end_date',
-            'end_date' => 'required|date|after:start_date',
-            'close_date' => 'required|date|before:start_date',
+                'start_date' => 'required',
+                'end_date' => 'required',
+                'close_date' => 'required',
+//            'start_date' => 'required|date|before:end_date',
+//            'end_date' => 'required|date|after:start_date',
+//            'close_date' => 'required|date|before:start_date',
             'address' => 'required|string',
-            'conten' => 'required|string',  //content controller error
+                'benefit' => 'required|string',
+                'require' => 'required|string',
+            'content' => 'required|string',  //content controller error
             'max_register' => 'required|int|max:500000000|gt:min_register|min:1',
             'min_register' => 'required|int|max:500000000|min:1',
             'image' => 'string|url',

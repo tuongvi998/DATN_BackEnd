@@ -11,6 +11,6 @@ class RegisterProfileSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\RegisterProfile::class,100)->create();
+        factory(\App\RegisterProfile::class,2000)->create();
     }
 }

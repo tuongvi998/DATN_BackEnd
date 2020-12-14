@@ -7,11 +7,12 @@ use App\Group;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\RegisterResourse;
+use App\Http\Resources\VolunteerProfile;
 use App\Volunteer;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Response;
 class AuthController extends Controller
 {
     public function __construct() {
@@ -100,7 +101,22 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function userProfile() {
-        return response()->json(auth()->user());
+        if(auth()->user()->role_id == '3'){
+            //return response()->json(new VolunteerProfile(auth()->user()));
+            $volunteer = Volunteer::where('user_id', '=', auth()->user()->id)
+                ->join('users', 'users.id', '=', 'volunteers.user_id')
+                ->select('users.name', 'users.email', 'volunteers.address', 'volunteers.birthday', 'volunteers.gender',
+                'volunteers.phone', 'volunteers.avatar')
+                ->get();
+            return Response::json($volunteer);
+        }
+        else if(auth()->user()->role_id == '2'){
+            $group = Group::where('user_id', '=', auth()->user()->id)
+                ->join('users', 'users.id', '=', 'groups.user_id')
+                ->select('users.name', 'users.email', 'groups.address','groups.phone', 'groups.avatar')
+                ->get();
+            return response($group);
+        }
     }
 
     public function check()
@@ -120,7 +136,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth($this->guard)->factory()->getTTL() * 60,
+            'expires_in' => auth($this->guard)->factory()->getTTL() * 36000,
             'user' => auth()->user()
         ]);
     }

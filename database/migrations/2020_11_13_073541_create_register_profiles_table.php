@@ -15,14 +15,14 @@ class CreateRegisterProfilesTable extends Migration
     {
         Schema::create('register_profiles', function (Blueprint $table) {
             $table->bigIncrements('id')->unique();
-            $table->unsignedBigInteger('volunteer_id');
+            $table->unsignedBigInteger('volunteer_user_id');
             $table->unsignedBigInteger('activity_id');
-//            $table->unsignedBigInteger('position_id');
+            $table->boolean('isAccept');
             $table->string('introduction',1000);
             $table->date('register_date');
             $table->string('interest',1000);
-            $table->foreign('volunteer_id')
-                ->references('id')
+            $table->foreign('volunteer_user_id')
+                ->references('user_id')
                 ->on('volunteers')
                 ->onDelete('cascade');
             $table->foreign('activity_id')

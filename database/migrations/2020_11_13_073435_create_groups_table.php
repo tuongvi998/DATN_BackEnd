@@ -27,7 +27,8 @@ class CreateGroupsTable extends Migration
                 ->onDelete('cascade');
             $table->foreign('field_id')
                 ->references('id')
-                ->on('fields');
+                ->on('fields')
+                ->onDelete('cascade');
         });
     }
 

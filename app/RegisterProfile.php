@@ -20,7 +20,7 @@ class RegisterProfile extends Model
     }
 
     public  function volunteer(){
-        return $this->belongsTo('App\Volunteer','volunteer_id');
+        return $this->belongsTo('App\Volunteer','volunteer_user_id');
     }
 
     public $timestamps = true;

@@ -11,7 +11,8 @@ class FieldSeeder extends Seeder
      */
     public function run()
     {
-        $field = ['môi trường', 'Thiên tai', 'Giáo dục'];
+        $field = ['Bảo vệ động vật', 'Cứu trợ thiên tai', 'Giáo dục', 'Cứu trợ nhân đạo', 'Giới tính', 'Môi trường và thiên nhiên',
+            'Lĩnh vực phụ nữ', 'Lĩnh vực trẻ em', 'Môi trư và thiên nhiên', 'Y tế sức khỏe', 'Phát triển cộng đồng'];
         for($i=0; $i < count($field); $i++){
             \Illuminate\Support\Facades\DB::table('fields')
                 ->insert([
