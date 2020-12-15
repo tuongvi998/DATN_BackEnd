@@ -30,20 +30,24 @@ class ActivityController extends Controller
 //            ->get();
         return response()->json([
             'data'=> $group,
-            'message' => 'all groups'
+            'message' => 'all activity'
         ]);
     }
-    public function getActivityByFieldId($id){
-        $activity = ActivityDetail::join('groups','groups.id','=','activity_details.group_id')
-            ->where('groups.id',$id)
+    public function getActivityByFieldId($name){
+        $activity = ActivityDetail::where('start_date','>', date('Y-m-d'))
+            ->join('groups', 'activity_details.group_id','=', 'groups.id')
             ->join('users','groups.user_id', '=', 'users.id')
             ->join('fields', 'groups.field_id', '=', 'fields.id')
-            ->select('activity_details.*', 'fields.name as field_name')
+            ->where('fields.name',$name)
+            ->select('activity_details.id', 'activity_details.start_date', 'activity_details.end_date', 'activity_details.address',
+                'activity_details.max_register', 'activity_details.min_register', 'activity_details.title', 'activity_details.content',
+                'activity_details.image', 'activity_details.donate', 'activity_details.cost', 'activity_details.close_date', 'users.name as group_name',
+                'fields.name as field_name')
+            ->orderby('activity_details.start_date')
             ->get();
         return response()->json([
-            "message"=>"get activity by field",
-            "data" => $activity
-        ]);
+            'message' => 'activity by field',
+            'data'=> $activity]);
     }
     public function create(ActivityRequest $request)
     {

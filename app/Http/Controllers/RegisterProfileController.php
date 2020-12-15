@@ -33,18 +33,36 @@ class RegisterProfileController extends Controller
         ]);
     }
 
-    public function show($activity_id) //id of activity
+    public function registerProfileJoined($activity_id) //id of activity
     {
         $register_profiles = RegisterProfile::where('register_profiles.activity_id', '=', $activity_id)
             ->join('users','users.id','=', 'register_profiles.volunteer_user_id')
+            ->join('volunteers','volunteers.user_id','=','users.id')
             ->select('register_profiles.id','register_profiles.isAccept', 'register_profiles.register_date', 'register_profiles.interest', 'register_profiles.introduction',
-            'users.name', 'users.email')
+                'users.name', 'users.email', 'volunteers.gender', 'volunteers.phone', 'volunteers.birthday')
+            ->where('register_profiles.isAccept','=',true)
             ->get();
         return response()->json([
             "message" => "register profile by activity id",
             "data" => $register_profiles
         ]);
     }
+
+    public function registerProfileRegister($activity_id) //id of activity
+    {
+        $register_profiles = RegisterProfile::where('register_profiles.activity_id', '=', $activity_id)
+            ->join('users','users.id','=', 'register_profiles.volunteer_user_id')
+            ->join('volunteers','volunteers.user_id','=','users.id')
+            ->select('register_profiles.id','register_profiles.isAccept', 'register_profiles.register_date', 'register_profiles.interest', 'register_profiles.introduction',
+                'users.name', 'users.email', 'volunteers.gender', 'volunteers.phone', 'volunteers.birthday')
+            ->where('register_profiles.isAccept','=',false)
+            ->get();
+        return response()->json([
+            "message" => "register profile by activity id",
+            "data" => $register_profiles
+        ]);
+    }
+
     public function changeAccept($id){
 //        $user_id = User::where('email','=',$email)->get('id');
         $rp = RegisterProfile::where('id','=',$id)

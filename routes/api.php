@@ -52,7 +52,8 @@ Route::group([
     Route::get('completed-activity','ActivityController@getCompletedActivity');
     Route::get('activities/up-coming', 'ActivityController@getActiveByGroupId'); //hoat dong chua dien ra
     Route::post('create-activity', 'ActivityController@create');
-    Route::get('activity-register-profile/{id}','RegisterProfileController@show');
+    Route::get('register-profile/joined/{activity_id}','RegisterProfileController@registerProfileJoined');
+    Route::get('register-profile/register/{activity_id}','RegisterProfileController@registerProfileRegister');
     Route::put('change-accept-status/{id}','RegisterProfileController@changeAccept');
 });
 Route::group([
@@ -75,7 +76,7 @@ Route::group([
     Route::get('activity/upcoming-activity','ActivityController@getUpcomingActivity');
     Route::get('activity/all-upcoming-activity','ActivityController@getAllUpcomingActivity');
     Route::get('activity/need-funding','ActivityController@getCompletedActivity');
-    Route::get('activities/field/{id}','ActivityController@getActivityByFieldId');
+    Route::get('activities/field/{name}','ActivityController@getActivityByFieldId');
     Route::get('activity/detail/{id}','ActivityController@getActivityDetail');
     Route::get('groups','GroupController@index');
     Route::get('fields', 'FieldController@allField');

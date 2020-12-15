@@ -11,11 +11,11 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $role = ['admin', 'group', 'volunteer'];
+        $role = [ 'group', 'volunteer'];
         for($i=0; $i < count($role); $i++){
             \Illuminate\Support\Facades\DB::table('roles')
                 ->insert([
-                    'id' => $i+1,
+                    'id' => $i+2,
                     'name' => $role[$i]
                 ]);
         }

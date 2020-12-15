@@ -13,7 +13,7 @@ $factory->define(ActivityDetail::class, function (Faker $faker) {
         'start_date' => $faker->dateTimeBetween('-400 days', '100 days'),
         'end_date' => $faker->dateTimeBetween('-400 days', '100 days'),
         'address' =>$faker->address,
-        'content' => $faker->text(1000),
+        'content' => $faker->text(500),
         'benefit' => $faker->text(500),
         'require' => $faker->text(500),
         'image' =>$faker->imageUrl(500,300),
