@@ -64,10 +64,10 @@ class VolunteerController extends Controller
              ]);
          }
     }
-    public function export()
-    {
-        dispatch(new \App\Jobs\Export\User(auth()->user()));
-    }
+//    public function export()
+//    {
+//        dispatch(new \App\Jobs\Export\User(auth()->user()));
+//    }
 
     public function getActivityRegister($id)
     {

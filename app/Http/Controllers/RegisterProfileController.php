@@ -26,6 +26,7 @@ class RegisterProfileController extends Controller
         $register_profile->register_date = $request->register_date;
         $register_profile->introduction = $request->introduction;
         $register_profile->interest = $request->interest;
+        $register_profile->experience = $request->experience;
         $register_profile->save();
         return response()->Json([
             'message:'=>'register profile create success',
@@ -38,7 +39,7 @@ class RegisterProfileController extends Controller
         $register_profiles = RegisterProfile::where('register_profiles.activity_id', '=', $activity_id)
             ->join('users','users.id','=', 'register_profiles.volunteer_user_id')
             ->join('volunteers','volunteers.user_id','=','users.id')
-            ->select('register_profiles.id','register_profiles.isAccept', 'register_profiles.register_date', 'register_profiles.interest', 'register_profiles.introduction',
+            ->select('register_profiles.id','register_profiles.isAccept','register_profiles.experience', 'register_profiles.register_date', 'register_profiles.interest', 'register_profiles.introduction',
                 'users.name', 'users.email', 'volunteers.gender', 'volunteers.phone', 'volunteers.birthday')
             ->where('register_profiles.isAccept','=',true)
             ->get();
@@ -54,7 +55,7 @@ class RegisterProfileController extends Controller
             ->join('users','users.id','=', 'register_profiles.volunteer_user_id')
             ->join('volunteers','volunteers.user_id','=','users.id')
             ->select('register_profiles.id','register_profiles.isAccept', 'register_profiles.register_date', 'register_profiles.interest', 'register_profiles.introduction',
-                'users.name', 'users.email', 'volunteers.gender', 'volunteers.phone', 'volunteers.birthday')
+                'users.name', 'users.email', 'volunteers.gender', 'volunteers.phone', 'volunteers.birthday','register_profiles.experience')
             ->where('register_profiles.isAccept','=',false)
             ->get();
         return response()->json([
@@ -84,9 +85,13 @@ class RegisterProfileController extends Controller
         //
     }
 
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        //
+        RegisterProfile::whrer('id',1)
+            ->update(['isAccept' => 1]);
+        return response()->json([
+            'message' => 'update successful'
+        ]);
     }
 
     /**
@@ -97,6 +102,9 @@ class RegisterProfileController extends Controller
      */
     public function destroy($id)
     {
-        //
+        RegisterProfile::where('id',$id)->delete();
+        return response()->json([
+                'message' => "Delete successful"
+            ]);
     }
 }

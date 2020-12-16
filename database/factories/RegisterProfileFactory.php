@@ -10,8 +10,9 @@ $factory->define(RegisterProfile::class, function (Faker $faker) {
         'volunteer_user_id'=>\App\Volunteer::all()->random()->user_id,
         'activity_id'=>\App\ActivityDetail::all()->random()->id,
         'register_date'=>$faker->dateTimeBetween('-450 days', '0 days'),
-        'introduction'=>$faker->text(400),
-        'interest'=>$faker->text(400),
+        'introduction'=>$faker->text(300),
+        'experience' => $faker->text(300),
+        'interest'=>$faker->text(300),
         'isAccept' =>$faker->boolean
     ];
 });

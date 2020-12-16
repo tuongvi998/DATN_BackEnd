@@ -91,4 +91,9 @@ class GroupController extends Controller
             return response()->Json('User delete successful');
         }
     }
+
+    public function export()
+    {
+        dispatch(new \App\Jobs\Export\User(auth()->user()));
+    }
 }

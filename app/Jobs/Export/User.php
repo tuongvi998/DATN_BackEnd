@@ -53,5 +53,6 @@ class User implements ShouldQueue
         foreach ($users as $user) {
             yield $user;
         }
+
     }
 }

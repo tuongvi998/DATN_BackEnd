@@ -21,6 +21,7 @@ class CreateRegisterProfilesTable extends Migration
             $table->string('introduction',1000);
             $table->date('register_date');
             $table->string('interest',1000);
+            $table->string('experience',1000);
             $table->foreign('volunteer_user_id')
                 ->references('user_id')
                 ->on('volunteers')

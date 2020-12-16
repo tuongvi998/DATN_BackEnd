@@ -51,10 +51,13 @@ Route::group([
     Route::delete('activity/{id}','ActivityController@destroy');
     Route::get('completed-activity','ActivityController@getCompletedActivity');
     Route::get('activities/up-coming', 'ActivityController@getActiveByGroupId'); //hoat dong chua dien ra
+    Route::get('activities/happen', 'ActivityController@getActiveByGroupId_Happen');
     Route::post('create-activity', 'ActivityController@create');
     Route::get('register-profile/joined/{activity_id}','RegisterProfileController@registerProfileJoined');
+    Route::delete('register-profile/{id}','RegisterProfileController@destroy');
     Route::get('register-profile/register/{activity_id}','RegisterProfileController@registerProfileRegister');
     Route::put('change-accept-status/{id}','RegisterProfileController@changeAccept');
+    Route::get('export',"GroupController@export");
 });
 Route::group([
     'middleware' =>'api',
@@ -64,7 +67,7 @@ Route::group([
     Route::get('activity-register/{id}','VolunteerController@getActivityRegister');
     Route::post('register-profile',"RegisterProfileController@create");
     Route::get('check-activity-register/{activity_id}',"VolunteerController@checkActivityRegister");
-    Route::get('export',"VolunteerController@export");
+
 
 });
 Route::group([
@@ -80,4 +83,5 @@ Route::group([
     Route::get('activity/detail/{id}','ActivityController@getActivityDetail');
     Route::get('groups','GroupController@index');
     Route::get('fields', 'FieldController@allField');
+    Route::get('fields/count-group', 'FieldController@fields');
 });

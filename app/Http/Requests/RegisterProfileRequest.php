@@ -34,6 +34,7 @@ class RegisterProfileRequest extends FormRequest
                 'register_date' => 'required|date',
                 'introduction' => 'required|string',
                 'interest' => 'required|string',
+                'experience'=>'required|string',
             ];
         }
         else{
@@ -44,6 +45,7 @@ class RegisterProfileRequest extends FormRequest
                 'register_date' => 'required|date|after:start_date',
                 'introduction' => 'required|string',
                 'interest' => 'required|string',
+                'experience'=>'required|string',
             ];
         }
     }
