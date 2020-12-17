@@ -84,4 +84,8 @@ Route::group([
     Route::get('groups','GroupController@index');
     Route::get('fields', 'FieldController@allField');
     Route::get('fields/count-group', 'FieldController@fields');
+    Route::get('groups/{field_name}', 'GroupController@getGroupByField');
+    Route::get('provinces','ProvinceController@index');
+    Route::get('districts/{province_id}','DistrictController@show');
+    Route::get('wards/{district_id}','WardController@show');
 });

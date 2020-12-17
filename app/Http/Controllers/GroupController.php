@@ -61,6 +61,17 @@ class GroupController extends Controller
         ]);
     }
 
+    public function getGroupByField($name){
+        $groups = Group::join('fields','fields.id', '=','groups.field_id')
+            ->where('fields.name',$name)
+            ->join("users","users.id","=","groups.user_id")
+            ->select("groups.avatar", "groups.address", "groups.phone", "users.name", "users.email")
+            ->get();
+        return response()->json([
+            'data' => $groups,
+            'message' => 'all group by field'
+        ]);
+    }
 
     public function show($id)
     {

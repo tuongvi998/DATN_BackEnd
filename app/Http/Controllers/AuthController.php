@@ -22,7 +22,7 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request){
         $token = null;
-        $credentials = request(['email', 'password']);
+        $credentials = request(['email', 'password' ]);
         $token = auth($this->guard)->attempt($credentials);
         $user = User::create(
             [
