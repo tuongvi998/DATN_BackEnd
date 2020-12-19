@@ -67,6 +67,26 @@ class ActivityController extends Controller
             'message' => 'activity by field',
             'data'=> $activity]);
     }
+
+   public function getActivityByGroupID($id){
+       $activity = ActivityDetail::join('groups', 'activity_details.group_id','=', 'groups.id')
+           ->where('groups.id', '=',$id)
+           ->join('users','groups.user_id', '=', 'users.id')
+           ->join('fields', 'groups.field_id', '=', 'fields.id')
+           ->select('activity_details.id', 'activity_details.start_date', 'activity_details.end_date', 'activity_details.address',
+               'activity_details.max_register', 'activity_details.min_register', 'activity_details.title', 'activity_details.content',
+               'activity_details.image', 'activity_details.donate', 'activity_details.cost', 'activity_details.close_date', 'users.name as group_name',
+               'fields.name as field_name')
+           ->orderby('activity_details.start_date')
+           ->get();
+       $group_name = User::join('groups','groups.user_id','=','users.id')
+           ->where('groups.id', '=', $id) ->get();
+       return response()->json([
+           'message' => 'activity by field',
+           'data'=> $activity,
+           'group_name' => $group_name
+           ]);
+    }
     public function create(ActivityRequest $request)
     {
 //        $post_fields = $request->only(['group_id', 'title', 'content',

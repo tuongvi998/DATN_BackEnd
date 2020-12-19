@@ -41,6 +41,7 @@ Route::group([
     Route::get('fields','FieldController@fields');
     Route::delete('field/{id}','FieldController@destroy');
     Route::post('field','FieldController@create');
+
 });
 Route::group([
    'middleware' =>'api',
@@ -57,7 +58,7 @@ Route::group([
     Route::delete('register-profile/{id}','RegisterProfileController@destroy');
     Route::get('register-profile/register/{activity_id}','RegisterProfileController@registerProfileRegister');
     Route::put('change-accept-status/{id}','RegisterProfileController@changeAccept');
-    Route::get('export',"GroupController@export");
+    Route::get('export/{id}',"GroupController@export");
 });
 Route::group([
     'middleware' =>'api',
@@ -78,6 +79,7 @@ Route::group([
     Route::get('activities','ActivityController@index');
     Route::get('activity/upcoming-activity','ActivityController@getUpcomingActivity');
     Route::get('activity/all-upcoming-activity','ActivityController@getAllUpcomingActivity');
+    Route::get('activity/by-group-id/{group_id}', 'ActivityController@getActivityByGroupID');
     Route::get('activity/need-funding','ActivityController@getCompletedActivity');
     Route::get('activities/field/{name}','ActivityController@getActivityByFieldId');
     Route::get('activity/detail/{id}','ActivityController@getActivityDetail');
@@ -88,4 +90,5 @@ Route::group([
     Route::get('provinces','ProvinceController@index');
     Route::get('districts/{province_id}','DistrictController@show');
     Route::get('wards/{district_id}','WardController@show');
+    Route::get('info','AdminController@showInfo');
 });

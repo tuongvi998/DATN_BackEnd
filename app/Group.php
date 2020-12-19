@@ -9,7 +9,9 @@ class Group extends Model
     protected $table = 'groups';
 
     protected $fillable =[
-        'id', 'address', 'phone', 'user_id', 'field_id', 'avatar'
+        'id', 'address', 'phone', 'user_id', 'field_id', 'avatar', 'name',
+        'founded_year', 'introduction', 'problem','result','mission','vision',
+        'wish', 'activity'
     ];
 
     public function user(){

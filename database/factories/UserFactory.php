@@ -21,7 +21,8 @@ $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->freeEmail,
-        'role_id' => \App\Role::all()->random()->id,
+//        'role_id' => \App\Role::all()->random()->id,
+        'role_id' => 2,
         'password' => bcrypt(123456789), // password
         'remember_token' => Str::random(10),
     ];

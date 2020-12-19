@@ -19,7 +19,16 @@ class CreateGroupsTable extends Migration
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
             $table->unsignedBigInteger('field_id');
+            $table->string('name')->nullable();
             $table->string('avatar')->nullable();
+            $table->date('founded_year')->nullable();
+            $table->string('introduction')->nullable();
+            $table->string('problem')->nullable();
+            $table->string('result')->nullable();
+            $table->string('mission')->nullable();
+            $table->string('vision')->nullable();
+            $table->string('wish')->nullable();
+            $table->string('activity')->nullable();
             $table->timestamps();
             $table->foreign('user_id')
                 ->references('id')

@@ -65,7 +65,7 @@ class GroupController extends Controller
         $groups = Group::join('fields','fields.id', '=','groups.field_id')
             ->where('fields.name',$name)
             ->join("users","users.id","=","groups.user_id")
-            ->select("groups.avatar", "groups.address", "groups.phone", "users.name", "users.email")
+            ->select('groups.id',"groups.avatar", "groups.address", "groups.phone", "users.name", "users.email")
             ->get();
         return response()->json([
             'data' => $groups,
@@ -103,8 +103,8 @@ class GroupController extends Controller
         }
     }
 
-    public function export()
+    public function export($id)
     {
-        dispatch(new \App\Jobs\Export\User(auth()->user()));
+        dispatch(new \App\Jobs\Export\User(auth()->user(), $id));
     }
 }

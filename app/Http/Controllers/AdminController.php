@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\ActivityDetail;
 use App\Field;
+use App\Group;
+use App\User;
+use App\Volunteer;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -42,9 +46,20 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showInfo()
     {
-        //
+        $group = Group::count();
+        $field = Field::count();
+        $need_funding= ActivityDetail::where('cost','>','donate')->count();
+        $volunteer = Volunteer::count();
+        return response()->json(
+            [
+                'group' => $group,
+                'volunteer' => $volunteer,
+                'field' => $field,
+                'need_funding' => $need_funding
+            ]
+        );
     }
 
     /**
