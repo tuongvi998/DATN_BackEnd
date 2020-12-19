@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RegisterRsource extends JsonResource
+class RegisterResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -21,4 +21,5 @@ class RegisterRsource extends JsonResource
             'role' => $this->roles->name
         ];
     }
+
 }

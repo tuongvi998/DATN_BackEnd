@@ -6,7 +6,7 @@ use App\Admin;
 use App\Group;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
-use App\Http\Resources\RegisterResourse;
+use App\Http\Resources\RegisterResource;
 use App\Http\Resources\VolunteerProfile;
 use App\Volunteer;
 use App\User;
@@ -37,7 +37,7 @@ class AuthController extends Controller
             $admin->user_id = $user->id;
             $admin->save();
             return response()->json([
-                new RegisterResourse($user)
+                new RegisterResource($user)
             ]);
         }
         elseif ($request->role_id == 2){
@@ -46,7 +46,7 @@ class AuthController extends Controller
             $group->field_id = $request->field_id;
             $group->save();
             return response()->json([
-                new RegisterResourse($user)
+                new RegisterResource($user)
             ]);
         }
         elseif($request->role_id == 3){
@@ -54,7 +54,7 @@ class AuthController extends Controller
             $volunteer->user_id = $user->id;
             $volunteer->save();
             return response()->json([
-                new RegisterResourse($user)
+                new RegisterResource($user)
             ]);
         }
     }

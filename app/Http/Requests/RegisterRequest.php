@@ -34,4 +34,15 @@ class RegisterRequest extends FormRequest
     {
         throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
+    public function messages()
+    {
+        return [
+            'name.required' => 'Vui lòng nhập tên đăng ký',
+            'email.unique' => 'Email đã đăng ký',
+            'email.required' => 'Vui lòng nhập email đăng ký',
+            'password.required' => 'Vui lòng nhập mật khẩu đăng ký',
+            'password.min' => 'Mật khẩu tối thiểu 8 kí tự',
+            'password_confirmation.same' => 'Mật khẩu không trùng nhau',
+        ];
+    }
 }
