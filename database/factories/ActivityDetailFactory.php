@@ -4,6 +4,21 @@
 
 use App\ActivityDetail;
 use Faker\Generator as Faker;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
+class getImagePath{
+    public  function getImage($array){
+        $url = $array[array_rand($array)];
+        $filename = \Illuminate\Support\Str::random(4).'.png';
+        $file = file_get_contents($url);
+        file_put_contents(public_path('/images/'.$filename), $file);
+        $data = File::get(public_path('/images/'.$filename));
+        $path = \Illuminate\Support\Facades\Storage::disk('s3',$data);
+        $imageUrl = \Illuminate\Support\Facades\Storage::disk('s3')->temporaryUrl($path,now()->addHours(2));
+        return $imageUrl;
+    }
+}
 
 $factory->define(ActivityDetail::class, function (Faker $faker) {
     $content = [
@@ -269,8 +284,6 @@ $factory->define(ActivityDetail::class, function (Faker $faker) {
         "Hỗ trợ Sáng kiến Màu cam 2018",
         "Tài chính cho tổ chức",
         "Dự án Biệt Đội Rùa Xanh",
-        "Dự án Biệt Đội Rùa Xanh",
-        "Dự án BIỆT ĐỘI RÙA XANH",
         "Admin Intern",
         "Dạy tiếng anh cho trẻ em nghèo",
         "Sale & Marketing",
@@ -311,8 +324,6 @@ $factory->define(ActivityDetail::class, function (Faker $faker) {
     ];
     $benefit= [
         '-Trở thành thành viên của TOFU TREE\n-Được trau dồi, rèn luyện các kỹ năng chuyên môn và kỹ năng xã hội trong quá trình làm việc\n-Mở rộng mạng lưới quan hệ với những người cùng sở thích và những anh chị có chuyên môn trong lĩnh vực\n-Nhận được giấy chứng nhận từ TOFU TREE sau khi kết thúc nhiệm kỳ\n-Có thể xin thư giới thiệu từ leader nếu có nhu cầu","',
-        '-Trở thành Gen 1 của TOFU TREE\n-Được trau dồi, rèn luyện các kỹ năng chuyên môn và kỹ năng xã hội trong quá trình làm việc\n-Mở rộng mạng lưới quan hệ với những người cùng sở thích và những anh chị có chuyên môn trong lĩnh vực\n-Nhận được giấy chứng nhận từ TOFU TREE sau khi kết thúc nhiệm kỳ\n-Có thể xin thư giới thiệu từ leader nếu có nhu cầu","',
-        '-Trở thành Gen 1 của TOFU TREE\n-Được trau dồi, rèn luyện các kỹ năng chuyên môn và kỹ năng xã hội trong quá trình làm việc\n-Mở rộng mạng lưới quan hệ với những người cùng sở thích và những anh chị có chuyên môn trong lĩnh vực\n-Nhận được giấy chứng nhận từ TOFU TREE sau khi kết thúc nhiệm kỳ\n-Có thể xin thư giới thiệu từ leader nếu có nhu cầu","',
         '-Trở thành Gen 1 của TOFU TREE\n-Được trau dồi, rèn luyện các kỹ năng chuyên môn và kỹ năng xã hội trong quá trình làm việc\n-Mở rộng mạng lưới quan hệ với những người cùng sở thích và những anh chị có chuyên môn trong lĩnh vực\n-Nhận được giấy chứng nhận từ TOFU TREE sau khi kết thúc nhiệm kỳ\n-Có thể xin thư giới thiệu từ leader nếu có nhu cầu","',
         '-Trở thành Gen 1 của TOFU TREE\n-Được trau dồi, rèn luyện các kỹ năng chuyên môn và kỹ năng xã hội trong quá trình làm việc\n-Mở rộng mạng lưới quan hệ với những người cùng sở thích và những anh chị có chuyên môn trong lĩnh vực\n-Nhận được giấy chứng nhận từ TOFU TREE sau khi kết thúc nhiệm kỳ\n-Có thể xin thư giới thiệu từ leader nếu có nhu cầu","',
         '-Trở thành Gen 1 của TOFU TREE\n-Được trau dồi, rèn luyện các kỹ năng chuyên môn và kỹ năng xã hội trong quá trình làm việc\n-Mở rộng mạng lưới quan hệ với những người cùng sở thích và những anh chị có chuyên môn trong lĩnh vực\n-Nhận được giấy chứng nhận từ TOFU TREE sau khi kết thúc nhiệm kỳ\n-Có thể xin thư giới thiệu từ leader nếu có nhu cầu","',
@@ -589,8 +600,19 @@ $factory->define(ActivityDetail::class, function (Faker $faker) {
 'https://images.unsplash.com/photo-1556413084-41a81ea2ade7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80',
 'https://thumbs.dreamstime.com/b/community-initiative-volunteering-concept-hands-group-people-community-initiative-volunteering-concept-hands-group-113676066.jpg',
 ];
+    $imagePath = function () use ($image) {
+        $url = $image[array_rand($image)];
+        $filename = Str::random(4).'.png';
+        $file = file_get_contents($url);
+        $random_name = Str::random(5);
+        $name = Storage::disk('local')->getAdapter()->applyPathPrefix($random_name);
+        file_put_contents($name, fopen($url, 'r'));
+        $path = Storage::disk('s3')->putFileAs('', $name, Str::random(10).'.png');
+        Storage::disk('local')->delete($random_name);
+        return $path;
+    };
     return [
-
+        'image' =>  $imagePath,
         'group_id' => \App\Group::all()->random()->id,
         'title' => $title[array_rand($title)],
         'close_date' => $faker->dateTimeBetween('-450 days', '80 days'),
@@ -600,10 +622,10 @@ $factory->define(ActivityDetail::class, function (Faker $faker) {
         'content' => $content[array_rand($content)],
         'benefit' => $benefit[array_rand($benefit)],
         'require' => $require[array_rand($require)],
-        'image' => $image[array_rand($image)],
         'max_register' => $faker->numberBetween(10,100),
         'min_register' => $faker->numberBetween(10,100),
         'donate' => $faker->numberBetween(5,10000000),
         'cost' => $faker->numberBetween(5,10000000),
     ];
 });
+
