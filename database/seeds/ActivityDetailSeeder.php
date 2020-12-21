@@ -11,6 +11,6 @@ class ActivityDetailSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\ActivityDetail::class,1000)->create();
+        factory(\App\ActivityDetail::class,500)->create();
     }
 }

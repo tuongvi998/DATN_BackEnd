@@ -14,7 +14,7 @@ class GroupController extends Controller
     {
         $groups = Group::join('users','user_id','=','users.id')
             ->join('fields','field_id', '=', 'fields.id')
-            ->select('fields.name as field_name','groups.id', 'groups.user_id', 'groups.address', 'groups.avatar', 'groups.field_id', 'users.email', 'users.name')
+            ->select('fields.name as field_name','groups.id', 'groups.user_id', 'groups.address', 'groups.avatar', 'groups.field_id', 'users.email', 'groups.name')
             ->get();
         return response()->json([
            'data'=> $groups,
@@ -49,7 +49,7 @@ class GroupController extends Controller
         $groups = Group::join('activity_details','activity_details.group_id','=','groups.id')
             ->join('users','users.id','=','groups.user_id')
             ->join('fields','fields.id','=','groups.field_id')
-            ->selectRaw('activity_details.group_id, count(activity_details.group_id) as group_count, users.name, users.email,
+            ->selectRaw('activity_details.group_id, count(activity_details.group_id) as group_count, groups.name, users.email,
             groups.avatar, groups.phone, groups.phone, fields.name as field_name')
             ->groupBy('activity_details.group_id','users.name','users.email','groups.phone','groups.phone','groups.avatar','fields.name' )
             ->orderBy('group_count','DESC')
@@ -65,7 +65,7 @@ class GroupController extends Controller
         $groups = Group::join('fields','fields.id', '=','groups.field_id')
             ->where('fields.name',$name)
             ->join("users","users.id","=","groups.user_id")
-            ->select('groups.id',"groups.avatar", "groups.address", "groups.phone", "users.name", "users.email")
+            ->select('groups.id',"groups.avatar", "groups.address", "groups.phone", "groups.name", "users.email")
             ->get();
         return response()->json([
             'data' => $groups,

@@ -8,6 +8,7 @@ use App\Http\Requests\ActivityRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ActivityController extends Controller
 {
@@ -89,40 +90,20 @@ class ActivityController extends Controller
     }
     public function create(ActivityRequest $request)
     {
-//        $post_fields = $request->only(['group_id', 'title', 'content',
-//                            'max_register', 'min_register', 'image', 'donate', 'cost','start_date',
-//                            'end_date', 'close_date']);
-//        $activity = new ActivityDetail($post_fields);
-//        $id = User::FindorFails()
-        $activity = new ActivityDetail();
-        $activity->group_id = $request->group_id;
-        $activity->title = $request->title;
-        $activity->benefit = $request->benefit;
-        $activity->address = $request->address;
-        $activity->require = $request->require;
-        $activity->content = $request->content; //content: error
-        $activity->max_register = $request->max_register;
-        $activity->min_register = $request->min_register;
-        $activity->image = $request->image;
-        $activity->donate = $request->donate;
-        $activity->cost = $request->cost;
-        $activity->start_date =date(($request->start_date)) ;
-        $activity->end_date = date(($request->end_date)) ;
-        $activity->close_date =date(($request->close_date))  ;
-//        $activity->start_date =date("Y-D-M", strtotime($request->start_date)) ;
-//        $activity->end_date = date("Y-D-M", strtotime($request->end_date)) ;
-//        $activity->close_date =date("Y-D-M", strtotime($request->close_date))  ; //close register
+        $file = $request->file('image');
+        $path = Storage::disk('s3')->put('', $file);
+        $url = Storage::disk('s3')->temporaryUrl($path,now()->addHours(2));
+        $activity = new ActivityDetail($request->all());
+        $activity->image = $path;
         $activity->save();
         return response()->Json([
             'message:'=>'activity create success',
-            'data' => $activity
+            'data' => $activity,
         ]);
     }
 
     public function getUpcomingActivity(Request $request)
     {
-//        echo "current date: ".date('Y-m-d');
-//        var_dump(date('Y-m-d'));
         $activity = ActivityDetail::where('start_date','>', date('Y-m-d'))
             ->join('groups', 'activity_details.group_id','=', 'groups.id')
             ->join('users','groups.user_id', '=', 'users.id')

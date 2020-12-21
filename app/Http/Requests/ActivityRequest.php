@@ -38,9 +38,11 @@ class ActivityRequest extends FormRequest
                 'content' => 'required|string',
                 'max_register' => 'required|int|max:500000000|gt:min_register|min:1',
                 'min_register' => 'required|int|max:500000000|min:1',
-                'image' => 'string|url',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:9999',
                 'donate'=> 'int|max:1000000000',
-                'cost' => 'required|int|max:1000000000'
+                'cost' => 'required|int|max:1000000000',
+                'benefit' => 'required|string',
+                'require' => 'required|string',
             ];
         }
         else{
