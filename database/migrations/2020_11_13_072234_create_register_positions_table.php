@@ -15,7 +15,7 @@ class CreateRegisterPositionsTable extends Migration
     {
         Schema::create('register_positions', function (Blueprint $table) {
             $table->bigIncrements('id')->unique();
-            $table->string('position_name');
+            $table->string('image');
             $table->timestamps();
         });
     }

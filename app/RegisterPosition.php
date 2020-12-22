@@ -8,7 +8,7 @@ class RegisterPosition extends Model
 {
     protected $table = 'register_positions';
     protected $fillable = [
-        'id', 'position_name'
+        'id', 'image'
     ];
     public $timestamps=true;
 

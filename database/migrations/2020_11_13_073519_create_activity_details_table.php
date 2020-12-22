@@ -21,9 +21,9 @@ class CreateActivityDetailsTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->string('address');
-            $table->string('content',10000);
-            $table->string('require',3000);
-            $table->string('benefit',3000);
+            $table->string('content',4000);
+            $table->string('require',4000);
+            $table->string('benefit', 4000);
             $table->unsignedBigInteger('max_register');
             $table->unsignedBigInteger('min_register');
             $table->string('image');

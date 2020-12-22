@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Group extends Model
 {
@@ -13,6 +14,13 @@ class Group extends Model
         'founded_year', 'introduction', 'problem','result','mission','vision',
         'wish', 'activity'
     ];
+
+    protected $appends = ['group_avatar_url'];
+
+    public function getGroupAvatarUrlAttribute()
+    {
+        return Storage::disk('s3')->temporaryUrl($this->avatar, now()->addHours(3));
+    }
 
     public function user(){
         return $this->belongsTo('App\User','user_id');

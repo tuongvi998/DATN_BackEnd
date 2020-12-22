@@ -14,7 +14,7 @@ class GroupController extends Controller
     {
         $groups = Group::join('users','user_id','=','users.id')
             ->join('fields','field_id', '=', 'fields.id')
-            ->select('fields.name as field_name','groups.id', 'groups.user_id', 'groups.address', 'groups.avatar', 'groups.field_id', 'users.email', 'groups.name')
+            ->select('fields.name as field_name','groups.id','groups.phone', 'groups.user_id', 'groups.address', 'groups.avatar', 'groups.field_id', 'users.email', 'groups.name')
             ->get();
         return response()->json([
            'data'=> $groups,

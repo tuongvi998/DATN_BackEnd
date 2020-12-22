@@ -18,10 +18,10 @@ class CreateRegisterProfilesTable extends Migration
             $table->unsignedBigInteger('volunteer_user_id');
             $table->unsignedBigInteger('activity_id');
             $table->boolean('isAccept');
-            $table->string('introduction',1000);
+            $table->string('introduction',5000);
             $table->date('register_date');
-            $table->string('interest',1000);
-            $table->string('experience',1000);
+            $table->string('interest',5000);
+            $table->string('experience');
             $table->foreign('volunteer_user_id')
                 ->references('user_id')
                 ->on('volunteers')

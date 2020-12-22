@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 class getImagePath{
     public  function getImage($array){
         $url = $array[array_rand($array)];
-        $filename = \Illuminate\Support\Str::random(4).'.png';
+        $filename = \Illuminate\Support\Str::random(11).'.png';
         $file = file_get_contents($url);
         file_put_contents(public_path('/images/'.$filename), $file);
         $data = File::get(public_path('/images/'.$filename));
@@ -602,8 +602,6 @@ $factory->define(ActivityDetail::class, function (Faker $faker) {
 ];
     $imagePath = function () use ($image) {
         $url = $image[array_rand($image)];
-        $filename = Str::random(4).'.png';
-        $file = file_get_contents($url);
         $random_name = Str::random(5);
         $name = Storage::disk('local')->getAdapter()->applyPathPrefix($random_name);
         file_put_contents($name, fopen($url, 'r'));

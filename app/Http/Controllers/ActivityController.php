@@ -20,16 +20,11 @@ class ActivityController extends Controller
 
     public function getActiveByGroupId()
     {
-//        $id = auth()->user()->id;
-        $group = Group::where('user_id', auth()->user()->id)
-            ->join('activity_details', 'activity_details.group_id','=','groups.id')
+        $group = ActivityDetail::join('groups','groups.id','=','activity_details.group_id')
+            ->where('groups.user_id','=',auth()->user()->id)
             ->where('start_date','>', date('Y-m-d'))
             ->select('activity_details.*')
             ->get();
-//        $group_id = $group->id;
-//        $groups = ActivityDetail::where('group_id', '=', $group_id)
-//            ->where('start_date','>', date('Y-m-d'))
-//            ->get();
         return response()->json([
             'data'=> $group,
             'message' => 'all activity'
@@ -37,16 +32,10 @@ class ActivityController extends Controller
     }
     public function getActiveByGroupId_Happen()
     {
-//        $id = auth()->user()->id;
-        $group = Group::where('user_id', auth()->user()->id)
-            ->join('activity_details', 'activity_details.group_id','=','groups.id')
+        $group = ActivityDetail::join('groups','groups.id','=','activity_details.group_id')
+            ->where('groups.user_id','=',auth()->user()->id)
             ->where('start_date','<', date('Y-m-d'))
-            ->select('activity_details.*')
             ->get();
-//        $group_id = $group->id;
-//        $groups = ActivityDetail::where('group_id', '=', $group_id)
-//            ->where('start_date','>', date('Y-m-d'))
-//            ->get();
         return response()->json([
             'data'=> $group,
             'message' => 'all activity'
