@@ -21,7 +21,20 @@ class GroupController extends Controller
             'message' => 'all groups'
         ]);
     }
-
+    public function getActiInfo(){
+        $upcoming = Group::where('groups.user_id','=',auth()->user()->id)
+            ->join('activity_details','activity_details.group_id','=','groups.id')
+            ->where('activity_details.start_date', '>', date('Y-m-d'))
+            ->select("activity_details.image")->count();
+        $happen = Group::where('groups.user_id','=',auth()->user()->id)
+            ->join('activity_details','activity_details.group_id','=','groups.id')
+            ->where('activity_details.end_date', '<', date('Y-m-d'))
+            ->select("activity_details.image")->count();
+        return response()->json([
+           'upcoming' => $upcoming,
+            'happen'=>$happen
+        ]);
+    }
     public function getTwoGroup(){
 //        SELECT groups.id, groups.user_id, activity_details.group_id, activity_details.countnum
 //        FROM groups JOIN (SELECT activity_details.group_id, COUNT(*) AS countnum FROM activity_details
@@ -75,11 +88,12 @@ class GroupController extends Controller
 
     public function show($id)
     {
-        $group = DB::table('groups')
-            ->where('id' ,'=',$id)
-            ->get();
-        return response()->Json([
-            'group:'=> $group
+        $group = Group::where('groups.id','=',$id)
+            ->join('users','users.id','=','groups.user_id')
+            ->select('groups.*','users.email')->get();
+        return response()->json([
+            'data' => $group,
+            'message' => 'group'
         ]);
     }
 

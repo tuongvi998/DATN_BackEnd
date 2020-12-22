@@ -34,7 +34,8 @@ class ActivityController extends Controller
     {
         $group = ActivityDetail::join('groups','groups.id','=','activity_details.group_id')
             ->where('groups.user_id','=',auth()->user()->id)
-            ->where('start_date','<', date('Y-m-d'))
+            ->where('end_date','<', date('Y-m-d'))
+            ->select('activity_details.id','activity_details.image','activity_details.address','activity_details.title','activity_details.start_date','activity_details.end_date')
             ->get();
         return response()->json([
             'data'=> $group,
@@ -90,7 +91,24 @@ class ActivityController extends Controller
             'data' => $activity,
         ]);
     }
-
+    public function getActivityJoined(){
+        $activity = ActivityDetail::join('register_profiles','register_profiles.activity_id','=','activity_details.id')
+            ->where('register_profiles.volunteer_user_id','=',auth()->user()->id)
+            ->where('activity_details.end_date', '<', date('Y-m-d'))
+            ->select('activity_details.*')->get();
+        return response()->json([
+            'data' => $activity
+        ]);
+    }
+    public function getActivityRegister(){
+        $activity = ActivityDetail::join('register_profiles','register_profiles.activity_id','=','activity_details.id')
+            ->where('register_profiles.volunteer_user_id','=',auth()->user()->id)
+            ->where('activity_details.end_date', '<', date('Y-m-d'))
+            ->select('activity_details.*')->get();
+        return response()->json([
+            'data' => $activity
+        ]);
+    }
     public function getUpcomingActivity(Request $request)
     {
         $activity = ActivityDetail::where('start_date','>', date('Y-m-d'))
@@ -110,8 +128,6 @@ class ActivityController extends Controller
     }
     public function getAllUpcomingActivity(Request $request)
     {
-//        echo "current date: ".date('Y-m-d');
-//        var_dump(date('Y-m-d'));
         $activity = ActivityDetail::where('start_date','>', date('Y-m-d'))
             ->join('groups', 'activity_details.group_id','=', 'groups.id')
             ->join('users','groups.user_id', '=', 'users.id')

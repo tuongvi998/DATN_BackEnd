@@ -31,11 +31,9 @@ Route::group([
     'prefix' => 'admin'
 ], function ($route){
     Route::get('volunteers','VolunteerController@index');//->middleware('admin');
-//    Route::get('get-all-volunteers','VolunteerController@index')->middleware('admin');
     Route::delete('volunteer/{user_id}','VolunteerController@destroy');//->middleware('admin');
     Route::get('volunteer/{id}','VolunteerController@show');
     Route::post('set-role-admin/{id}','VolunteerController@setRoleAdmin')->middleware('admin');
-//    Route::get('groups','GroupController@index');//->middleware('admin');
     Route::get('group/{id}','GroupController@show');
     Route::delete('group/{user_id}','GroupController@destroy');
     Route::get('fields','FieldController@fields');
@@ -47,6 +45,7 @@ Route::group([
    'middleware' =>'api',
    'prefix' => 'group'
 ],function ($route){
+    Route::get('/{id}','GroupController@show');
     Route::put('activity/{id}','ActivityController@update');
     Route::get('activity/{id}','ActivityController@show');
     Route::delete('activity/{id}','ActivityController@destroy');
@@ -59,13 +58,14 @@ Route::group([
     Route::get('register-profile/register/{activity_id}','RegisterProfileController@registerProfileRegister');
     Route::put('change-accept-status/{id}','RegisterProfileController@changeAccept');
     Route::get('export/{id}',"GroupController@export");
+    Route::get('get-acti-info',"GroupController@getActiInfo");
 });
 Route::group([
     'middleware' =>'api',
     'prefix' => 'volunteer'
 ],function ($route){
-    Route::get('activity-joined/{id}','VolunteerController@getActivityJoined');
-    Route::get('activity-register/{id}','VolunteerController@getActivityRegister');
+    Route::get('activity-joined','ActivityController@getActivityJoined');
+    Route::get('activity-register','ActivityController@getActivityRegister');
     Route::post('register-profile',"RegisterProfileController@create");
     Route::get('check-activity-register/{activity_id}',"VolunteerController@checkActivityRegister");
 
